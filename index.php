@@ -55,6 +55,7 @@ if ($action == "viewevent"){
 		$string.= "<br>";
 		$string.= date("d-m-Y", (float)$eventos[$i]->fechacreacion);
 		$string.= "<br><br><br>";
+		
 	}
 	
 	$botonurl = new moodle_url("/local/calendario2/index.php", array("action" => "add"));
