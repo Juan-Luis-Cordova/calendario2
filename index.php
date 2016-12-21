@@ -36,7 +36,8 @@ if ($action=="add"){
 		$big_event->fechaevento = $fromform->fecha;
 		$big_event->iduser = $userid;
 		//echo $big_event->userid;
-		$insert_action = $DB->insert_record("mdl_calendario2_evento", $big_event);
+		$insert_action = $DB->insert_record("calendario2_evento", $big_event, $returnid=true, $bulk=false);
+		$action = "viewevent";
 	}
 }
 
@@ -48,17 +49,18 @@ if ($action == "viewevent"){
 	$contador = count($eventos); 
 	//echo $eventos[1]->evento;
 	$string = "";
+	$botonurl = new moodle_url("/local/calendario2/index.php", array("action" => "add"));
 	for ($i=1; $i<=$contador; $i++){
 		$string.= $eventos[$i]->evento;
 		$string.= "<br>";
 		$string.= $eventos[$i]->descripcion;
 		$string.= "<br>";
-		$string.= date("d-m-Y", (float)$eventos[$i]->fechacreacion);
+		$string.= date("d-m-Y", (float)$eventos[$i]->fechaevento);
 		$string.= "<br><br><br>";
 		
 	}
 	
-	$botonurl = new moodle_url("/local/calendario2/index.php", array("action" => "add"));
+	
 }
 
 if ($action == "add"){
@@ -67,7 +69,7 @@ if ($action == "add"){
 
 if ($action == "viewevent"){
 	echo $string;
-	echo $OUTPUT->single_button($botonurl,"agregar evento");
+	echo $OUTPUT->single_button($botonurl,"Agregar Evento");
 }
 
 echo $OUTPUT->footer();
