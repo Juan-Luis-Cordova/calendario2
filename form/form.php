@@ -13,11 +13,11 @@ class calendario2_crear_form extends moodleform {
 	//	$user = $this->id.USER;
 		
 		
-		$mform->addElement("text", "evento", "evento");
+		$mform->addElement("text", "evento", "Evento");
 		$mform->setType( "evento", PARAM_TEXT);
-		$mform->addElement("text", "descripcion", "descripcion");
+		$mform->addElement("text", "descripcion", "Descripcion");
 		$mform->setType( "descripcion", PARAM_TEXT);
-		$mform->addElement("date_selector", "fecha", "fecha");
+		$mform->addElement("date_selector", "fecha", "Fecha");
 		$mform->setType( "fecha", PARAM_INT);
 		
 		$mform->addElement("hidden", "action", "add");

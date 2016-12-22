@@ -7,24 +7,26 @@ class calendario2_editar_form extends moodleform{
 	function definition(){
 		global $DB, $CFG;
 		$mform = $this->_form;
-		$instance = $this->_customdata;
+/*		$instance = $this->_customdata;
 		$id=$instance["id"];
 		$evento=$instance["evento"];
 		$descripcion=$instance["descripcion"];
 		$fechaevento=$instance["fechaevento"];
+*/		
+		
+//		$mform->addElement("hidden", "id", $id);
+//		$mform->setType("id", PARAM_INT);
+		$mform->addElement("text", "evento", "Evento");
+		$mform->setType("evento", PARAM_TEXT);
+		$mform->addElement("text", "descripcion", "Descripcion");
+		$mform->setType("descripcion", PARAM_TEXT);
+		$mform->addElement("date_selector", "fecha", "Fecha");
+		$mform->setType( "fecha", PARAM_INT);
 		
 		$mform->addElement("hidden", "action", "edit");
 		$mform->setType("action", PARAM_TEXT);
-		$mform->addElement("hidden", "id", $id);
-		$mform->setType("id", PARAM_INT);
-		$mform->addElement("text", "evento", $evento);
-		$mform->setType("evento", PARAM_TEXT);
-		$mform->addElement("text", "descripcion", $descripcion);
-		$mform->setType("descripcion", PARAM_TEXT);
-		$mform->addElement("date_selector", "fecha", "fecha");
-		$mform->setType( "fecha", PARAM_INT);
 		
-		$this->add_action_buttons(true);
+		$this->add_action_buttons(true, "Save");
 	}
 		
 	public function validation($data, $files){
