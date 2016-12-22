@@ -21,7 +21,7 @@ $PAGE->set_pagelayout('standard');
 
 $formulario = new calendario2_crear_form();
 
-echo $OUTPUT->header();
+
 
 
 if ($action=="add"){
@@ -58,7 +58,7 @@ if ($action == "edit"){
 			
 //			echo count($editar_evento);  No entiendo por qe funciona, pero funciona...
 			
-			$editform = new calendario2_editar_form(null, array("id"=>$edition,
+			$editform = new calendario2_editar_form(null, array("edition"=>$edition,
 					"evento"=>$editar_evento[$edition]->evento,
 					"descripcion"=>$editar_evento[$edition]->descripcion,
 					"fechaevento"=>$editar_evento[$edition]->fechaevento));
@@ -69,7 +69,6 @@ if ($action == "edit"){
 			$defaultdata->fechaevento = $editar_evento[$edition]->fechaevento;
 			$editform->set_data($defaultdata);
 			
-			echo "jojojo";
 			if ($editform->is_cancelled()){
 /*				$cancel = new moodle_url("/local/calendario2/index.php", array(
 							"action" => "viewevent"));
@@ -77,67 +76,99 @@ if ($action == "edit"){
 				$action = "viewevent";
 			}
 			else if($editar = $editform->get_data()){
-				echo "lala";
+				echo "<br>";
 				$editado = new stdClass();
 				$editado->id = $edition;
-				$editado->evento = $editar->get_data()->evento;
-				$editado->descripcion = $editar->get_data()->descripcion;
-				$editado->fechaevento = $editar->get_data()->fechaevento;
+				$editado->evento = $editar->evento;
+				$editado->descripcion = $editar->descripcion;
+				$editado->fechaevento = $editar->fecha;
 				
 				$DB->update_record("calendario2_evento", $editado);
 				$action = "viewevent";
-				//$gobackurl = new moodle_url("/local/calendario2/index.php", array(
-				//		"action" => "viewevent"));
-				//redirect($gobackurl);
 			}
-			echo "cueck";
-//			else{
-//				echo "Error Fatal!!!";
-//				$gobackurl = new moodle_url("/local/calendario2/index.php", array(
-//						"action" => "viewevent"));
-//				redirect($gobackurl);
-//			}
 		}
 	}
 }
 //Fin cosa para editar
 //**********************************************************************************************	
+//Inicio cosa para borrar
+
+if ($action == "predelete"){
+	echo "Esta completa y absolutamente seguro que quiere borrar permanentemente el evento seleccionado?";
+	$botondeletey = new moodle_url("/local/calendario2/index.php", array("action" => "delete", "edition"=>$edition));
+	$botondeleten = new moodle_url("/local/calendario2/index.php", array("action" => "viewevent"));
+	echo $OUTPUT->single_button($botondeletey,"Si");
+	echo $OUTPUT->single_button($botondeleten,"No");
+}
+
+
+
+
+if ($action == "delete"){
+	if ($edition == null){
+		echo "No hay nada seleccionado para borrar";
+		$action = "viewevent";
+	}
+	else{
+		$deleter = new stdClass();
+		$deleter->id = $edition;
+		$deleter->fechacreacion = 0;
+		
+		$DB->update_record("calendario2_evento", $deleter);
+		$action = "viewevent";
+		echo "Evento borrado satisfactoriamente";
+	}
+
+
+}
+//Fin cosa para borrar
+//**********************************************************************************************
 
 if ($action == "viewevent"){
 	$tabla = new html_table();
 
 
-	$query = "SELECT * from mdl_calendario2_evento WHERE iduser =?";
+	$query = "SELECT * from mdl_calendario2_evento WHERE iduser =? AND fechacreacion != 0";
 	$ndeeventos = $DB->get_records_sql($query, array ("iduser"=>$userid));
 	$contadordeeventos = count($ndeeventos);
-
+	$botonurl = new moodle_url("/local/calendario2/index.php", array("action" => "add"));
 	if($contadordeeventos>0){
 		foreach($ndeeventos as $ev){
 			$urlevent = new moodle_url("/local/calendario2/index.php", array(
 					"action" => "edit",
 					"edition" => $ev->id,
 			));
+			
+			$urldelete = new moodle_url("/local/calendario2/index.php", array(
+					"action" => "predelete", //aqui cambie la wea
+					"edition" => $ev->id,
+			));
+			
 			$editeventicon = new pix_icon("i/edit", "Editar");
 			$editeventiconaction = $OUTPUT->action_icon($urlevent, $editeventicon);
 
-			$botonurl = new moodle_url("/local/calendario2/index.php", array("action" => "add"));
+			$deleteeventicon = new pix_icon("i/delete", "Borrar");
+			$deleteeventiconaction = $OUTPUT->action_icon($urldelete, $deleteeventicon);
+			
+			
 			$tabla->data[] = array(
 					$ev->evento,
 					$ev->descripcion,
 					date("d-m-Y", (float)$ev->fechaevento),
-					$editeventiconaction
+					$editeventiconaction,
+					$deleteeventiconaction
 			);
 		}
 	}
 }
+
+echo $OUTPUT->header();
 
 if ($action == "add"){
 	$formulario->display();
 }
 
 if ($action == "edit"){
-	//Error: no llega a este edit para llenar el formulario
-	echo "wololo";
 	$editform->display();
 }
 

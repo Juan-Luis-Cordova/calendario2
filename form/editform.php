@@ -7,8 +7,10 @@ class calendario2_editar_form extends moodleform{
 	function definition(){
 		global $DB, $CFG;
 		$mform = $this->_form;
-/*		$instance = $this->_customdata;
-		$id=$instance["id"];
+		$instance = $this->_customdata;
+		$edition = $instance["edition"];
+		$mform->setType("edition", PARAM_TEXT);
+		/*
 		$evento=$instance["evento"];
 		$descripcion=$instance["descripcion"];
 		$fechaevento=$instance["fechaevento"];
@@ -24,6 +26,7 @@ class calendario2_editar_form extends moodleform{
 		$mform->setType( "fecha", PARAM_INT);
 		
 		$mform->addElement("hidden", "action", "edit");
+		$mform->addElement("hidden", "edition", $edition);
 		$mform->setType("action", PARAM_TEXT);
 		
 		$this->add_action_buttons(true, "Save");
