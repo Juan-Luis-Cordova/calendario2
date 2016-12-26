@@ -10,14 +10,7 @@ class calendario2_editar_form extends moodleform{
 		$instance = $this->_customdata;
 		$edition = $instance["edition"];
 		$mform->setType("edition", PARAM_TEXT);
-		/*
-		$evento=$instance["evento"];
-		$descripcion=$instance["descripcion"];
-		$fechaevento=$instance["fechaevento"];
-*/		
-		
-//		$mform->addElement("hidden", "id", $id);
-//		$mform->setType("id", PARAM_INT);
+
 		$mform->addElement("text", "evento", "Evento");
 		$mform->setType("evento", PARAM_TEXT);
 		$mform->addElement("text", "descripcion", "Descripcion");
@@ -42,19 +35,14 @@ class calendario2_editar_form extends moodleform{
 		if(empty($evento)){
 			$errors["evento"] = "Debe ponerle nombre a su evento";
 		}
-	
 		if(empty($descripcion)){
 			$errors["descripcion"] = "De que se trata su evento?";
 		}
-	
 		$today = time();
 		if ($today > $fecha + 86400){
 			$errors["fecha"] = "Debe seleccionar una fecha";
 				
 		}
-	
 		return $errors;
-	
-		
 	}
 }
