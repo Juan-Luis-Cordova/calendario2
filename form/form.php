@@ -6,8 +6,6 @@ require_once($CFG->libdir . "/formslib.php");
 
 class calendario2_crear_form extends moodleform {
 	public function definition() {
-		global $DB, $CFG;
-
 		$mform = $this->_form;
 
 	//	$user = $this->id.USER;

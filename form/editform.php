@@ -5,7 +5,7 @@ require_once($CFG->libdir . "/formslib.php");
 
 class calendario2_editar_form extends moodleform{
 	function definition(){
-		global $DB, $CFG;
+
 		$mform = $this->_form;
 		$instance = $this->_customdata;
 		$edition = $instance["edition"];
