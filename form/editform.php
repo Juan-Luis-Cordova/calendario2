@@ -48,7 +48,7 @@ class calendario2_editar_form extends moodleform{
 		}
 	
 		$today = time();
-		if ($today > $fecha){
+		if ($today > $fecha + 86400){
 			$errors["fecha"] = "Debe seleccionar una fecha";
 				
 		}
