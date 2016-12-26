@@ -6,6 +6,7 @@ require_once ($CFG->dirroot . "/local/calendario2/form/editform.php");
 global $PAGE, $CFG, $OUTPUT, $DB, $USER;
 
 $action = optional_param("action", "viewevent", PARAM_TEXT);
+$status = optional_param("status", null, PARAM_TEXT);
 $edition = optional_param("edition", null, PARAM_INT);
 
 require_login();
@@ -36,6 +37,7 @@ if ($action=="add"){
 		$big_event->iduser = $userid;
 		$insert_action = $DB->insert_record("calendario2_evento", $big_event, $returnid=true, $bulk=false);
 		//Inserts the data into the DB
+		$status = "Evento agregado satisfactoriamente";
 		$action = "viewevent";
 		//Let's go see the new event among the rest
 	}
@@ -45,7 +47,7 @@ if ($action=="add"){
 //Edit
 if ($action == "edit"){
 	if ($edition == null){
-		echo "No hay nada seleccionado para editar";
+		$status =  "No hay nada seleccionado para editar";
 		$action = "viewevent";
 	}
 	else{
@@ -78,6 +80,7 @@ if ($action == "edit"){
 				//Takes the new data and updates it in the DB
 				$DB->update_record("calendario2_evento", $editado);
 				$action = "viewevent";
+				$status = "Evento eitado satisfactoriamente";
 			}
 		}
 	}
@@ -87,7 +90,7 @@ if ($action == "edit"){
 //"Delete"
 if ($action == "delete"){
 	if ($edition == null){
-		echo "No hay nada seleccionado para borrar";
+		$status = "No hay nada seleccionado para borrar";
 		$action = "viewevent";
 	}
 	else{
@@ -99,7 +102,7 @@ if ($action == "delete"){
 		//Update selected event, if fechacreacion is 0, then it won't be shown anymore
 		//But it will remain in the DB
 		$action = "viewevent";
-		echo "Evento borrado satisfactoriamente";
+		$status = "Evento borrado satisfactoriamente";
 	}
 }
 //End "delete"
@@ -159,6 +162,10 @@ if ($action == "edit"){
 }
 
 if ($action == "viewevent"){
+	if ($status != null){ 
+		print_object($status);
+		$status = null;
+	}
 	echo $OUTPUT->single_button($botonurl,"Agregar Evento");
 	echo html_writer::table($tabla);	
 }
