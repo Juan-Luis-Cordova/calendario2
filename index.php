@@ -111,7 +111,7 @@ if ($action == "delete"){
 if ($action == "viewevent"){
 	$tabla = new html_table();
 
-	$query = "SELECT * from mdl_calendario2_evento WHERE iduser =? AND fechacreacion != 0";
+	$query = "SELECT * from mdl_calendario2_evento WHERE iduser =? AND fechacreacion != 0 ORDER BY fechaevento";
 	//Get all events from user which haven't been "deleted"
 	$ndeeventos = $DB->get_records_sql($query, array ("iduser"=>$userid));
 	$contadordeeventos = count($ndeeventos);
