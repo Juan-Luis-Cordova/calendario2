@@ -17,6 +17,7 @@ $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url($url);
 $PAGE->set_pagelayout('standard');
+$PAGE->set_title('Calendario');
 
 $formulario = new calendario2_crear_form();
 
