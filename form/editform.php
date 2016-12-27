@@ -1,9 +1,29 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * @package    local
+ * @subpackage calendario
+ * @copyright  2016 Javier Gonzalez <javiergonzalez@alumnos.uai.cl>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 defined('MOODLE_INTERNAL') || die();
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 require_once($CFG->libdir . "/formslib.php");
 
-class calendario2_editar_form extends moodleform{
+class calendario2_edit_form extends moodleform{
 	function definition(){
 
 		$mform = $this->_form;
@@ -11,12 +31,12 @@ class calendario2_editar_form extends moodleform{
 		$edition = $instance["edition"];
 		$mform->setType("edition", PARAM_TEXT);
 
-		$mform->addElement("text", "evento", "Evento");
-		$mform->setType("evento", PARAM_TEXT);
-		$mform->addElement("text", "descripcion", "Descripcion");
-		$mform->setType("descripcion", PARAM_TEXT);
-		$mform->addElement("date_selector", "fecha", "Fecha");
-		$mform->setType( "fecha", PARAM_INT);
+		$mform->addElement("text", "event", "Evento");
+		$mform->setType("event", PARAM_TEXT);
+		$mform->addElement("text", "description", "Descripcion");
+		$mform->setType("description", PARAM_TEXT);
+		$mform->addElement("date_selector", "date", "Fecha");
+		$mform->setType( "date", PARAM_INT);
 		
 		$mform->addElement("hidden", "action", "edit");
 		$mform->addElement("hidden", "edition", $edition);
@@ -28,19 +48,20 @@ class calendario2_editar_form extends moodleform{
 	public function validation($data, $files){
 		$errors = array();
 	
-		$evento = $data["evento"];
-		$descripcion = $data["descripcion"];
-		$fecha = $data["fecha"];
+		$event = $data["event"];
+		$description = $data["description"];
+		$date = $data["date"];
 	
-		if(empty($evento)){
-			$errors["evento"] = "Debe ponerle nombre a su evento";
+		if(empty($event)){
+			$errors["event"] = "Debe ponerle nombre a su evento";
 		}
-		if(empty($descripcion)){
-			$errors["descripcion"] = "De que se trata su evento?";
+		if(empty($description)){
+			$errors["description"] = "De que se trata su evento?";
 		}
 		$today = time();
-		if ($today > $fecha + 86400){
-			$errors["fecha"] = "Debe seleccionar una fecha";
+		if ($today > $date + 86400){
+			//86400 is the number of seconds in a day. This allows for today to be a valid day
+			$errors["date"] = "Debe seleccionar una fecha";
 				
 		}
 		return $errors;

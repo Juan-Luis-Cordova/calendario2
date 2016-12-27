@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * @package    local
-* @subpackage calendario
+* @subpackage calendario2
 * @copyright  2016 Javier Gonzalez <javiergonzalez@alumnos.uai.cl>
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 defined('MOODLE_INTERNAL') || die();
 $plugin->pluginname = "local_calendario2";
 $plugin->component = 'local_calendario2';
-$plugin->version   = '2016121902';
+$plugin->version   = '2016122701';
