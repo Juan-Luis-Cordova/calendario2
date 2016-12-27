@@ -80,7 +80,6 @@ if ($action == "edit"){
 					"event"=>$editevent[$edition]->event,
 					"description"=>$editevent[$edition]->description,
 					"eventdate"=>$editevent[$edition]->eventdate));
-			//Not really sure why this works... ¯\_(ツ)_/¯
 			$defaultdata = new stdClass();
 			$defaultdata->event = $editevent[$edition]->event;
 			$defaultdata->description = $editevent[$edition]->description;
